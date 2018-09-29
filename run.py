@@ -28,7 +28,7 @@ for d, l in zip(data_folders, classes):
     file_names.extend(name)
     labels.extend([l] * len(name))
 
-epoch_size = 1 #len(file_names)
+epoch_size = 3 #len(file_names)
 print "file_names: " + str(file_names)
 print "labels: " + str(labels)
 print "epoch_size: " + str(epoch_size)
