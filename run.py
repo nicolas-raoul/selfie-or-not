@@ -28,7 +28,7 @@ for d, l in zip(data_folders, classes):
     file_names.extend(name)
     labels.extend([l] * len(name))
 
-epoch_size = 3 #len(file_names)
+epoch_size = 5
 print "file_names: " + str(file_names)
 print "labels: " + str(labels)
 print "epoch_size: " + str(epoch_size)
@@ -65,7 +65,9 @@ from tensorflow import keras
 
 model = keras.Sequential([
     keras.layers.Flatten(input_shape=(thumbnail_height, thumbnail_width, 1)),
+    keras.layers.Dense(256, activation=tf.nn.relu),
     keras.layers.Dense(128, activation=tf.nn.relu),
+    keras.layers.Dense(16, activation=tf.nn.relu),
     keras.layers.Dense(1, activation=tf.nn.sigmoid)
 ])
 
