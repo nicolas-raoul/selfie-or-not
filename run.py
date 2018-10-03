@@ -1,3 +1,13 @@
+#
+#
+#
+#
+# OUT OF DATE !!!
+# Please use run-preprocessed.py instead
+#
+#
+#
+#
 import os
 import tensorflow as tf
 print "TensorFlow version: " + tf.__version__
