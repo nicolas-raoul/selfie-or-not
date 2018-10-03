@@ -1,6 +1,6 @@
 import os
 import tensorflow as tf
-print "TensorFlow version: " + tf.__version__
+print("TensorFlow version: " + tf.__version__)
 
 # Reduce logging verbosity to solve https://stackoverflow.com/questions/52512381/disable-image-parsing-warnings-in-tensorflow-python
 #os.environ["TF_CPP_MIN_LOG_LEVEL"]="2"
@@ -25,9 +25,9 @@ for d, l in zip(data_folders, classes):
     labels.extend([l] * len(name))
 
 epoch_size = 10
-print "file_names: " + str(file_names)
-print "labels: " + str(labels)
-print "epoch_size: " + str(epoch_size)
+print("file_names: " + str(file_names))
+print("labels: " + str(labels))
+print("epoch_size: " + str(epoch_size))
 
 file_names = tf.convert_to_tensor(file_names, dtype=tf.string)
 labels = tf.convert_to_tensor(labels)
@@ -52,7 +52,7 @@ def map_fn(path, label):
 dataset = dataset.map(map_fn, num_parallel_calls=8)
 dataset = dataset.batch(batch_size)
 dataset = dataset.prefetch(1)
-print "dataset: " + str(dataset)
+print("dataset: " + str(dataset))
 
 images, labels = dataset.make_one_shot_iterator().get_next()
 
@@ -78,8 +78,8 @@ model.compile(optimizer=tf.train.AdamOptimizer(),
               loss='binary_crossentropy',
               metrics=['accuracy'])
 
-print "images: " + str(images)
-print "labels: " + str(labels)
+print("images: " + str(images))
+print("labels: " + str(labels))
 model.fit(images, labels, epochs=epoch_size, verbose=1, steps_per_epoch=1095)
 
 # Test
@@ -95,16 +95,16 @@ for d_test, l_test in zip(data_folders_test, classes):
     file_names_test.extend(name_test)
     labels_test.extend([l_test] * len(name_test))
 epoch_size_test = 1
-print "file_names: " + str(file_names_test)
-print "labels: " + str(labels_test)
-print "epoch_size: " + str(epoch_size_test)
+print("file_names: " + str(file_names_test))
+print("labels: " + str(labels_test))
+print("epoch_size: " + str(epoch_size_test))
 dataset_test = tf.data.Dataset.from_tensor_slices((file_names_test, labels_test))
 dataset_test = dataset_test.repeat().shuffle(epoch_size_test)
 # num_parallel_calls > 1 induces intra-batch shuffling
 dataset_test = dataset_test.map(map_fn, num_parallel_calls=8)
 dataset_test = dataset_test.batch(len(file_names_test))
 dataset_test = dataset_test.prefetch(1)
-print "dataset: " + str(dataset_test)
+print("dataset: " + str(dataset_test))
 images_test, labels_test = dataset_test.make_one_shot_iterator().get_next()
 loss_test, accuracy_test = model.evaluate(images_test, labels_test, steps=1)
 
@@ -118,10 +118,10 @@ for i, prediction in enumerate(predictions):
     label = str(file_names_test[i][15:16])
     prediction_str = str(prediction[0])
     f.write(prediction_str + "," + label + "," + name + "\n")
-    #print "Prediction: " + str(prediction) + " Actual: " + str(tf.keras.backend.get_value(labels_test[i])[0]) + " File: " + file_names_test[i]
-    print "Prediction: " + prediction_str + " Actual: " + label + " File: " + name
-    #print labels_test[i][0]
+    #print("Prediction: " + str(prediction) + " Actual: " + str(tf.keras.backend.get_value(labels_test[i])[0]) + " File: " + file_names_test[i])
+    print("Prediction: " + prediction_str + " Actual: " + label + " File: " + name)
+    #print(labels_test[i][0])
     #with tf.Session() as sess:
-    #  print labels_test[i].eval()
+    #  print(labels_test[i].eval())
 
 print('Test accuracy:', accuracy_test)
