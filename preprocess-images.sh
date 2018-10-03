@@ -1,5 +1,5 @@
 set -x
-SIZE=100
+SIZE=40
 
 mkdir data/thumbnails-${SIZE}
 mkdir data/thumbnails-${SIZE}/training

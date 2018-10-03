@@ -2,8 +2,6 @@ import os
 import tensorflow as tf
 print "TensorFlow version: " + tf.__version__
 
-dev=False
-
 # Reduce logging verbosity to solve https://stackoverflow.com/questions/52512381/disable-image-parsing-warnings-in-tensorflow-python
 #os.environ["TF_CPP_MIN_LOG_LEVEL"]="2"
 #tf.logging.set_verbosity(tf.logging.ERROR)
@@ -14,10 +12,8 @@ thumbnail_width=thumbnail_height
 out_shape = tf.convert_to_tensor([thumbnail_height, thumbnail_width])
 batch_size = 100
 
-if dev:
-    data_folders = ["data/dev/training/0", "data/dev/training/1"]
-else:
-    data_folders = ["data/thumbnails/training/0", "data/thumbnails/training/1"]
+datapath = "data/thumbnails-" + str(thumbnail_height) + "/"
+data_folders = [datapath + "training/0", datapath + "training/1"]
 
 classes = [0., 1.]
 
@@ -28,7 +24,7 @@ for d, l in zip(data_folders, classes):
     file_names.extend(name)
     labels.extend([l] * len(name))
 
-epoch_size = 10
+epoch_size = 4
 print "file_names: " + str(file_names)
 print "labels: " + str(labels)
 print "epoch_size: " + str(epoch_size)
@@ -90,10 +86,7 @@ model.fit(images, labels, epochs=epoch_size, verbose=1, steps_per_epoch=1095)
 
 batch_size_test = 100
 
-if dev:
-    data_folders_test = ["data/dev/test/0", "data/dev/test/1"]
-else:
-    data_folders_test = ["data/real/test/0", "data/real/test/1"]
+data_folders_test = [datapath + "test/0", datapath + "test/1"]
 
 file_names_test = [] # Path of all data files
 labels_test = [] # Label of each data file (same size as the array above)
